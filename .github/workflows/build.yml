@@ -10,16 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # used to cache dependencies with a timeout
-      - name: Change Ownership of .git Directory
-        run: |
-          sudo chown -R $USER:$USER .git/
-          
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      -  name:  Disable  CI  
-      - run:  echo  "CI=false" >> $GITHUB_ENV
+      # used to cache dependencies with a timeout         
+      - name:  Disable  CI
+        run:  echo  "CI=false" >> $GITHUB_ENV
+        
       - name: Get Date
         id: get-date
         run: |
