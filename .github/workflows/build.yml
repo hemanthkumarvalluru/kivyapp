@@ -7,17 +7,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:    
+    steps:
       - uses: actions/checkout@v2
+
       # used to cache dependencies with a timeout
       - name: Get Date
         id: get-date
         run: |
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
         shell: bash
-
-      - name: Disable  CI  
-      - run: echo  "CI=false" >> $GITHUB_ENV
 
       - name: Cache Buildozer global directory
         uses: actions/cache@v2
@@ -42,3 +40,13 @@ jobs:
         with:
           name: package
           path: ${{ steps.buildozer.outputs.filename }}
+
+      - name: Change Ownership of .git Directory
+        run: |
+          sudo chown -R $USER:$USER .git/
+          
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name:  Disable  CI  
+      - run:  echo  "CI=false" >> $GITHUB_ENV
